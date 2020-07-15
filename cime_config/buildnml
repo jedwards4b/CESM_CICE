@@ -126,9 +126,12 @@ def _create_namelists(case, confdir, infile, nmlgen):
         ninst_ice = case.get_value("NINST_ICE")
         ntasks = case.get_value("NTASKS_PER_INST_ICE")
         comp_root_dir_ice = case.get_value("COMP_ROOT_DIR_ICE")
+        cime_bld_dir = os.path.join(comp_root_dir_ice,"bld")
+        if not os.path.exists(cime_bld_dir):
+            cime_bld_dir = os.path.join(comp_root_dir_ice,"cime","bld")
         srcroot = case.get_value("SRCROOT")
 
-        cmd = os.path.join(comp_root_dir_ice, "bld", "generate_cice_decomp.pl")
+        cmd = os.path.join(cime_bld_dir, "generate_cice_decomp.pl")
         command = "%s -ccsmroot %s -res %s -nx %s -ny %s -nproc %s -thrds %s -output %s "  \
                   % (cmd, srcroot, hgrid, nx, ny, ntasks, nthrds_ice, "all")
         rc, out, err = run_cmd(command, verbose=True)
@@ -253,6 +256,12 @@ def buildnml(case, caseroot, compname):
     if compname != "cice":
         raise AttributeError
     comp_root_dir_ice = case.get_value("COMP_ROOT_DIR_ICE")
+    cime_config_dir = os.path.join(comp_root_dir_ice,"cime_config")
+    if not os.path.exists(cime_config_dir):
+        cime_config_dir = os.path.join(comp_root_dir_ice,"cime","cime_config")
+    expect(os.path.exists(cime_config_dir),"Could not find cime_config_dir for cice")
+
+
     srcroot = case.get_value("SRCROOT")
     rundir = case.get_value("RUNDIR")
     ninst = case.get_value("NINST_ICE")
@@ -267,7 +276,8 @@ def buildnml(case, caseroot, compname):
         if not filecmp.cmp(file1, file2):
             call_buildcpp = True
     if call_buildcpp:
-        cmd = os.path.join(os.path.join(comp_root_dir_ice,"cime_config","buildcpp"))
+        cmd = os.path.join(os.path.join(cime_config_dir,"buildcpp"))
+            
         logger.info("     ...calling cice buildcpp to set build time options")
         try:
             mod = imp.load_source("buildcpp", cmd)
@@ -289,8 +299,7 @@ def buildnml(case, caseroot, compname):
             "user_xml_dir %s does not exist " %user_xml_dir)
 
     # user definition *replaces* existing definition.
-    namelist_xml_dir = os.path.join(comp_root_dir_ice, "cime_config")
-    definition_file = [os.path.join(namelist_xml_dir, "namelist_definition_cice.xml")]
+    definition_file = [os.path.join(cime_config_dir, "namelist_definition_cice.xml")]
     user_definition = os.path.join(user_xml_dir, "namelist_definition_cice.xml")
     if os.path.isfile(user_definition):
         definition_file = [user_definition]

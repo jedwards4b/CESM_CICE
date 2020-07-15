@@ -27,6 +27,9 @@ def _build_cice():
         comp_root_dir_ice = case.get_value("COMP_ROOT_DIR_ICE")
         # call buildcpp  to set the cppdefs
         cmd = os.path.join(os.path.join(comp_root_dir_ice,"cime_config","buildcpp"))
+        if not os.path.exists(cmd):
+            cmd = os.path.join(os.path.join(comp_root_dir_ice,"cime","cime_config","buildcpp"))
+
         logger.info("     ... buildlib calling cice buildcpp to set build time options")
         try:
             mod = imp.load_source("buildcpp", cmd)
