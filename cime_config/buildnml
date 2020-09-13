@@ -21,15 +21,52 @@ from CIME.case import Case
 from CIME.nmlgen import NamelistGenerator
 from CIME.utils import expect
 from CIME.utils import run_cmd_no_fail, expect
-from CIME.utils import run_cmd
+from CIME.utils import run_cmd, safe_copy
 from CIME.buildnml import create_namelist_infile, parse_input
 
 import glob, shutil
 logger = logging.getLogger(__name__)
 
+# returns active components
+def active_components(case):
+    # query compset
+    compset = case.get_value("COMPSET")
+    # parse compset
+    components = compset.split("_")[1:]
+    # remove stub components
+    components = [ x for x in components if "S" not in x[0] ]
+
+    return components
+
+def date_yyyymmddhh(case):
+    run_start_date = case.get_value('RUN_STARTDATE').split('-')
+    yyyy = int(run_start_date[0])
+    mm = int(run_start_date[1])
+    dd = int(run_start_date[2])
+    run_start_tod = case.get_value('START_TOD')
+    hh = int(run_start_tod)//3600
+    return yyyy, mm, dd, hh
+
+# prepares the input files of a case and places in rundir:
+def prep_input(case):
+    din_loc_ic = case.get_value("DIN_LOC_IC")
+    rundir = case.get_value("RUNDIR")
+
+    # Query date and time
+    yyyy, mm, dd, hh = date_yyyymmddhh(case)
+
+    # Set data directory
+    icdir = os.path.join(din_loc_ic,"{:04d}{:02d}".format(yyyy,mm),"{:04d}{:02d}{:02d}".format(yyyy,mm,dd))
+
+    f_lst = ['kmtu_cice_NEMS_mx025.nc', 'grid_cice_NEMS_mx025.nc', 'cice5_model.res.nc']
+    for f in f_lst:
+        print os.path.join(icdir,f)
+        if os.path.isfile(os.path.join(icdir,f)):
+            safe_copy(os.path.join(icdir,f),os.path.join(rundir,f))
+
 # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
 ####################################################################################
-def _create_namelists(case, confdir, infile, nmlgen):
+def _create_namelists(case, confdir, infile, nmlgen, app):
 ####################################################################################
     """Write out the namelist for this component.
 
@@ -52,6 +89,7 @@ def _create_namelists(case, confdir, infile, nmlgen):
     hgrid = case.get_value('ICE_GRID')
     config['hgrid'] = hgrid
     config['cice_mode'] = cice_mode
+    config['app'] = app
 
     cice_config_opts = case.get_value('CICE_CONFIG_OPTS')
     if "cice5" in cice_config_opts:
@@ -221,6 +259,17 @@ def _create_namelists(case, confdir, infile, nmlgen):
             expect(False,  "%s must be set for cice prescribed mode" %sstice_year_end)
 
     #----------------------------------------------------
+    # UFS S2S specific definitions
+    #----------------------------------------------------
+
+    if "s2s" in app:
+        # query date and time
+        yyyy, mm, dd, hh = date_yyyymmddhh(case)
+
+        nmlgen.set_value('year_init', yyyy)
+
+
+    #----------------------------------------------------
     # Write out namelist groups
     #----------------------------------------------------
     groups=['setup_nml',
@@ -261,6 +310,12 @@ def buildnml(case, caseroot, compname):
         cime_config_dir = os.path.join(comp_root_dir_ice,"cime","cime_config")
     expect(os.path.exists(cime_config_dir),"Could not find cime_config_dir for cice")
 
+    # Set app name
+    components = active_components(case)
+    if any('ufsatm' in x for x in components):
+        app = "s2s"
+    else:
+        app = "cesm"
 
     srcroot = case.get_value("SRCROOT")
     rundir = case.get_value("RUNDIR")
@@ -340,7 +395,17 @@ def buildnml(case, caseroot, compname):
         namelist_infile = [infile]
 
         # create namelist
-        _create_namelists(case, confdir, namelist_infile, nmlgen)
+        # allow using user provided ice_in
+        auto_namelist_file = os.path.join(confdir,"ice_in")
+        user_namelist_file = os.path.join(caseroot,"SourceMods","src.cice","ice_in")
+        if os.path.isfile(user_namelist_file):
+            logger.info("Using user provided ice_in file {}".format(user_namelist_file))
+            if os.path.isfile(auto_namelist_file):
+                os.remove(auto_namelist_file)
+            safe_copy(user_namelist_file,auto_namelist_file)
+        else:
+            logger.info("Using auto-generated ice_in file {}".format(auto_namelist_file))
+            _create_namelists(case, confdir, namelist_infile, nmlgen, app)
 
         # copy namelist files to rundir
         if os.path.isdir(rundir):
@@ -350,6 +415,10 @@ def buildnml(case, caseroot, compname):
                 file2 += inst_string
             logger.debug("CICE namelist copy: file1 %s file2 %s " %(file1, file2))
             shutil.copy2(file1, file2)
+
+    # copy input
+    if 's2s' in app:
+        prep_input(case)
 
 ###############################################################################
 def set_nondefault_nml(cice_config_opts, string, value):
