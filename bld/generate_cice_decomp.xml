@@ -18,6 +18,16 @@
     <decomptype>spacecurve</decomptype>
   </decomp>
 
+  <!-- tx0.25v1 resolution -->
+
+  <decomp nproc="48" res="tx0.25v[1234]" >
+    <maxblocks >-1</maxblocks>
+    <bsize_x   >60</bsize_x>
+    <bsize_y   >540</bsize_y>
+    <decomptype>cartesian</decomptype>
+    <decompset>slenderX2</decompset>
+  </decomp>
+
   <!-- ar9v4 resolution -->
 
   <decomp nproc="400" res="ar9v[1234]" >
