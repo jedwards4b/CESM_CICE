@@ -66,6 +66,7 @@
       <value hgrid='tx0.1v3'>$DIN_LOC_ROOT/ice/cice/g.e11.G.T62_t12.002.cice.r.0016-01-01-00000.nc</value>
       <value hgrid='ar9v3'>$DIN_LOC_ROOT/ice/cice/cice5ic/r26RBRCICE5g0.cice.r.1990-09-01-00000.nc</value>
       <value hgrid='ar9v4'>$DIN_LOC_ROOT/ice/cice/cice5ic/r26RBRCICE5g0.cice.r.1990-09-01-00000.nc</value>
+      <value hgrid='tx0.25v1' app='s2s'>cice5_model.res.nc</value>
     </values>
   </entry>
 
@@ -78,6 +79,33 @@
     </desc>
     <values>
       <value>./rpointer.ice</value>
+      <value hgrid='tx0.25v1' app='s2s'>./ice.restart_file</value>
+    </values>
+  </entry>
+
+  <entry id="restart">
+    <type>logical</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      Restart from previous run
+    </desc>
+    <values>
+      <value>.false.</value>
+      <value hgrid='tx0.25v1' app='s2s'>.true.</value>
+    </values>
+  </entry>
+
+  <entry id="restart_dir">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      restart directory
+    </desc>
+    <values>
+      <value>./</value>
+      <value hgrid='tx0.25v1' app='s2s'>./RESTART/</value>
     </values>
   </entry>
 
@@ -90,6 +118,7 @@
     </desc>
     <values>
       <value></value>
+      <value hgrid='tx0.25v1' app='s2s'>iced</value>
     </values>
   </entry>
 
@@ -103,6 +132,7 @@
     <valid_values>bin,nc,pio</valid_values>
     <values>
       <value>pio</value>
+      <value hgrid='tx0.25v1' app='s2s'>nc</value>
     </values>
   </entry>
 
@@ -139,25 +169,64 @@
     </desc>
     <values>
       <value>unknown</value>
+      <value hgrid='tx0.25v1' app='s2s'>iceh</value>
     </values>
   </entry>
 
-  <!-- <entry id="runtype" modify_via_xml="RUN_TYPE"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>setup</category> -->
-  <!--   <group>setup_nml</group> -->
-  <!--   <desc> -->
-  <!--     runtype. initial or continue -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>initial</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="history_dir">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      history directory
+    </desc>
+    <values>
+      <value>./</value>
+      <value hgrid='tx0.25v1' app='s2s'>./history/</value>
+    </values>
+  </entry>
+
+  <entry id="runtype">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      Starts from ice_ic if it is set as initial, otherwise restart using pointer_file
+    </desc>
+    <valid_values>initial,continue</valid_values>
+    <values>
+      <value>initial</value>
+    </values>
+  </entry>
+
+  <entry id="runid">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      run ID used in CESM and for machine 'bering'
+    </desc>
+    <values>
+      <value>unknown</value>
+    </values>
+  </entry>
+
+  <entry id="version_name">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      CICE version information
+    </desc>
+    <values>
+      <value>unknown_version_name</value>
+      <value hgrid='tx0.25v1' app='s2s'>CICE_6.0.2</value>
+    </values>
+  </entry>
 
   <!-- =========================== -->
   <!-- Time steps -->
   <!-- =========================== -->
-
 
   <entry id="days_per_year" modify_via_xml="CALENDAR">
     <type>real</type>
@@ -181,6 +250,7 @@
     <values>
       <value>1</value>
       <value cice_mode="prescribed">0</value>
+      <value hgrid='tx0.25v1' app='s2s'>2016</value>
     </values>
   </entry>
 
@@ -207,6 +277,7 @@
     </desc>
     <values>
       <value>11</value>
+      <value hgrid='tx0.25v1' app='s2s'>21</value>
     </values>
   </entry>
 
@@ -219,6 +290,7 @@
     </desc>
     <values>
       <value>99</value>
+      <value hgrid='tx0.25v1' app='s2s'>89</value>
     </values>
   </entry>
 
@@ -237,6 +309,7 @@
       <value>m,x,x,x,x</value>
       <value hgrid="ar9v3">m,d,h,x,x</value>
       <value hgrid="ar9v4">m,d,h,x,x</value>
+      <value hgrid='tx0.25v1' app='s2s'>m,d,h,x,x</value>
     </values>
   </entry>
 
@@ -249,6 +322,7 @@
     </desc>
     <values>
       <value>1,0,0,0,0</value>
+      <value hgrid='tx0.25v1' app='s2s'>0,0,6,1,1</value>
     </values>
   </entry>
 
@@ -261,6 +335,7 @@
     </desc>
     <values>
       <value>"m"</value>
+      <value hgrid='tx0.25v1' app='s2s'>"d"</value>
     </values>
   </entry>
 
@@ -273,6 +348,20 @@
     </desc>
     <values>
       <value>1</value>
+      <value hgrid='tx0.25v1' app='s2s'>2</value>
+    </values>
+  </entry>
+
+  <entry id="dump_last">
+    <type>logical</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      if true, write restart on last time step of simulation
+    </desc>
+    <values>
+      <value>.true.</value>
+      <value hgrid='tx0.25v1' app='s2s'>.false.</value>
     </values>
   </entry>
 
@@ -288,6 +377,31 @@
     </values>
   </entry>
 
+  <entry id="incond_dir">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      path to initial condition directory
+    </desc>
+    <values>
+      <value>./</value>
+      <value hgrid='tx0.25v1' app='s2s'>./history/</value>
+    </values>
+  </entry>
+
+  <entry id="incond_file">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      output file for initial condition
+    </desc>
+    <values>
+      <value>iceh_ic</value>
+    </values>
+  </entry>
+
   <entry id="write_ic">
     <type>logical</type>
     <category>setup</category>
@@ -297,6 +411,7 @@
     </desc>
     <values>
       <value>.false.</value>
+      <value hgrid='tx0.25v1' app='s2s'>.true.</value>
     </values>
   </entry>
 
@@ -313,6 +428,44 @@
     </desc>
     <values>
       <value>24</value>
+      <value hgrid='tx0.25v1' app='s2s'>6</value>
+    </values>
+  </entry>
+
+  <entry id="diag_type">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      diagnostic output to stdout or file
+    </desc>
+    <valid_values>stdout,file</valid_values>
+    <values>
+      <value>stdout</value>
+    </values>
+  </entry>
+
+  <entry id="diag_file">
+    <type>char</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      diagnostic output file
+    </desc>
+    <values>
+      <value>ice_diag.d</value>
+    </values>
+  </entry>
+
+  <entry id="dbug">
+    <type>logical</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      if true, write extra diagnostics
+    </desc>
+    <values>
+      <value>.false.</value>
     </values>
   </entry>
 
@@ -337,6 +490,7 @@
     </desc>
     <values>
       <value>.false.</value>
+      <value hgrid='tx0.25v1' app='s2s'>.true.</value>
     </values>
   </entry>
 
@@ -384,7 +538,74 @@
       64 bit offset
     </desc>
     <values>
+      <value>.true.</value>
+      <value hgrid='tx0.25v1' app='s2s'>.false.</value>
+    </values>
+  </entry>
+
+  <!--
+  <entry id="use_restart_time">
+    <type>logical</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      if true, use time written in core restart file
+    </desc>
+    <values>
       <value>.true. </value>
+    </values>
+  </entry>
+  -->
+
+  <entry id="use_leap_years">
+    <type>logical</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      if true, include leap days
+    </desc>
+    <values>
+      <value>.false.</value>
+      <value hgrid='tx0.25v1' app='s2s'>.true.</value>
+    </values>
+  </entry>
+
+  <entry id="istep0">
+    <type>integer</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      initial time step number
+    </desc>
+    <values>
+      <value>0</value>
+      <value hgrid='tx0.25v1' app='s2s'>26496</value>
+    </values>
+  </entry>
+
+  <entry id="dt">
+    <type>real</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      thermodynamics time step length
+    </desc>
+    <values>
+      <value>UNSET</value>
+      <value hgrid='tx0.25v1' app='s2s'>900.0</value>
+    </values>
+  </entry>
+
+  <entry id="npt">
+    <type>integer</type>
+    <category>setup</category>
+    <group>setup_nml</group>
+    <desc>
+      total number of time steps (dt)
+    </desc>
+    <values>
+      <value>99999</value>
+      <value hgrid='tx0.25v1' app='s2s'>999</value>
     </values>
   </entry>
 
@@ -403,6 +624,7 @@
     <values>
       <value>bin</value>
       <value cice_mode="prescribed">nc</value>
+      <value hgrid='tx0.25v1' app='s2s'>nc</value>
     </values>
   </entry>
 
@@ -418,6 +640,7 @@
       <value>displaced_pole</value>
       <value cice_mode="prescribed">latlon</value>
       <value hgrid="tx0.66v1">tripole</value>
+      <value hgrid="tx0.25v1">tripole</value>
       <value hgrid="tx0.1v2">tripole</value>
       <value hgrid="tx0.1v3">tripole</value>
       <value hgrid="tx1v1">tripole</value>
@@ -447,7 +670,7 @@
       <value hgrid="ar9v3">$DIN_LOC_ROOT/ice/cice/ar9v3_20101118.grid</value>
       <value hgrid="ar9v4">$DIN_LOC_ROOT/ice/cice/ar9v3_20101118.grid</value>
       <value hgrid="us20">$DIN_LOC_ROOT/ice/cice/domain.ocn.us20.20110426.nc</value>
-      <value hgrid="tx0.25v1">$DIN_LOC_ROOT/ice/cice/grid_cice_NEMS_mx025.nc</value>
+      <value hgrid='tx0.25v1' app='s2s'>grid_cice_NEMS_mx025.nc</value>
     </values>
   </entry>
 
@@ -471,7 +694,7 @@
       <value hgrid="ar9v3">$DIN_LOC_ROOT/ocn/pop/ar9v3/grid/kmt.ar9v3.ocn.ChanBarrier.20100622.ieeei4</value>
       <value hgrid="ar9v4">$DIN_LOC_ROOT/ice/cice/ar9v3_20110106.kmt</value>
       <value hgrid="us20">$DIN_LOC_ROOT/ice/cice/domain.ocn.us20.20110426.nc</value>
-      <value hgrid="tx0.25v1">$DIN_LOC_ROOT/ice/cice/kmtu_cice_NEMS_mx025.nc</value>
+      <value hgrid='tx0.25v1' app='s2s'>kmtu_cice_NEMS_mx025.nc</value>
     </values>
   </entry>
 
@@ -498,7 +721,7 @@
       Use bathmetry file for basalstress formulation
     </desc>
     <values>
-      <value>.false. </value>
+      <value>.false.</value>
     </values>
   </entry>
 
@@ -586,6 +809,7 @@
       <value phys="cice4">4</value>
       <value hgrid="ar9v">7</value>
       <value hgrid="tx0.25">7</value>
+      <value hgrid='tx0.25v1' app='s2s'>7</value>
     </values>
   </entry>
 
@@ -600,6 +824,7 @@
       <value>3</value>
       <value phys="cice4">1</value>
       <value hgrid="tx0.25">1</value>
+      <value hgrid='tx0.25v1' app='s2s'>1</value>
     </values>
   </entry>
 
@@ -614,6 +839,19 @@
       <value>3</value>
       <value hgrid="tx0.25">7</value>
       <value cice_mode='prescribed'>0</value>
+      <value hgrid='tx0.25v1' app='s2s'>1</value>
+    </values>
+  </entry>
+
+  <entry id="nfsd">
+    <type>integer</type>
+    <category>grid</category>
+    <group>grid_nml</group>
+    <desc>
+      number of floe size categories (1 = default)
+    </desc>
+    <values>
+      <value>1</value>
     </values>
   </entry>
 
@@ -747,6 +985,7 @@
       <value hgrid ='tx0.1v2'>tripole</value>
       <value hgrid ='tx0.1v3'>tripole</value>
       <value hgrid ='tx1v1'>tripole</value>
+      <value hgrid ='tx0.25v1'>tripole</value>
     </values>
   </entry>
 
@@ -759,6 +998,7 @@
     </desc>
     <values>
       <value>.true.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.false.</value>
     </values>
   </entry>
 
@@ -771,6 +1011,7 @@
     </desc>
     <values>
       <value>.true.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.false.</value>
     </values>
   </entry>
 
@@ -783,6 +1024,19 @@
     </desc>
     <values>
       <value>.true.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.false.</value>
+    </values>
+  </entry>
+
+  <entry id="nprocs" modify_via_xml="ICE_NCPL">
+    <type>integer</type>
+    <category>decomp</category>
+    <group>domain_nml</group>
+    <desc>
+      Number of processors in this dist
+    </desc>
+    <values>
+      <value>$ICE_NCPL</value>
     </values>
   </entry>
 
@@ -801,6 +1055,7 @@
       <value>3</value>
       <value hgrid="tx0.25">0</value>
       <value cice_mode='prescribed'>0</value>
+      <value hgrid ='tx0.25v1' app='s2s'>1</value>
     </values>
   </entry>
 
@@ -1058,6 +1313,7 @@
     </desc>
     <values>
       <value>.true.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.false.</value>
     </values>
   </entry>
 
@@ -1067,6 +1323,30 @@
     <group>tracer_nml</group>
     <desc>
       Aerosol restart from file.
+    </desc>
+    <values>
+      <value>.false.</value>
+    </values>
+  </entry>
+
+  <entry id="tr_fsd">
+    <type>logical</type>
+    <category>tracers</category>
+    <group>tracer_nml</group>
+    <desc>
+      Floe size distribution
+    </desc>
+    <values>
+      <value>.false.</value>
+    </values>
+  </entry>
+
+  <entry id="restart_fsd">
+    <type>logical</type>
+    <category>tracers</category>
+    <group>tracer_nml</group>
+    <desc>
+      Floe size distribution restart
     </desc>
     <values>
       <value>.false.</value>
@@ -1089,6 +1369,7 @@
       <value>1</value>
       <value cice_mode='prescribed'>0</value>
       <value cice_mode='thermo_only'>0</value>
+      <value hgrid ='tx0.25v1' app='s2s'>1</value>
     </values>
   </entry>
 
@@ -1105,6 +1386,7 @@
       <value phys="cice4">1</value>
       <value hgrid="ar9v3">1</value>
       <value hgrid="ar9v4">1</value>
+      <value hgrid ='tx0.25v1' app='s2s'>1</value>
     </values>
   </entry>
 
@@ -1143,7 +1425,7 @@
       critical Rayleigh number
     </desc>
     <values>
-      <value>10</value>
+      <value>10.0</value>
     </values>
   </entry>
 
@@ -1168,6 +1450,7 @@
     </desc>
     <values>
       <value>-1.5e-07</value>
+      <value hgrid ='tx0.25v1' app='s2s'>-5.0e-8</value>
     </values>
   </entry>
 
@@ -1192,6 +1475,19 @@
     </desc>
     <values>
       <value>0.85</value>
+    </values>
+  </entry>
+
+  <entry id="sw_redist">
+    <type>logical</type>
+    <category>parameterizations</category>
+    <group>thermo_nml</group>
+    <desc>
+      Redistribute internal shortwave to surface
+    </desc>
+    <values>
+      <value>.false.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.true.</value>
     </values>
   </entry>
 
@@ -1224,7 +1520,7 @@
       subcycles per dynamics timestep
     </desc>
     <values>
-      <value> 120 </value>
+      <value>120</value>
     </values>
   </entry>
 
@@ -1236,9 +1532,21 @@
       use revised EVP formulation
     </desc>
     <values>
+      <value>.false.</value>
       <value hgrid="ar9v3">.false.</value>
       <value hgrid="ar9v4">.false.</value>
-      <value>.false.</value>
+    </values>
+  </entry>
+
+  <entry id="kevp_kernel">
+    <type>integer</type>
+    <category>parameterizations</category>
+    <group>dynamics_nml</group>
+    <desc>
+      Entering kevp_kernel version
+    </desc>
+    <values>
+      <value>0</value>
     </values>
   </entry>
 
@@ -1250,7 +1558,7 @@
       Parameter for revised EVP
     </desc>
     <values>
-      <value>300.</value>
+      <value>300.0</value>
     </values>
   </entry>
 
@@ -1262,7 +1570,21 @@
       Parameter for revised EVP
     </desc>
     <values>
-      <value>300.</value>
+      <value>300.0</value>
+    </values>
+  </entry>
+
+  <entry id="ssh_stress">
+    <type>char</type>
+    <category>parameterizations</category>
+    <group>dynamics_nml</group>
+    <desc>
+      Computed from 'coupled sea surface height gradient' or 'computed from ocean velocity'
+    </desc>
+    <valid_values>geostrophic,coupled</valid_values>
+    <values>
+      <value>geostrophic</value>
+      <value hgrid ='tx0.25v1' app='s2s'>coupled</value>
     </values>
   </entry>
 
@@ -1331,6 +1653,7 @@
       <value>4.0</value>
       <value hgrid="ar9v3">4.0</value>
       <value hgrid="ar9v4">4.0</value>
+      <value hgrid ='tx0.25v1' app='s2s'>3.0</value>
     </values>
   </entry>
 
@@ -1475,6 +1798,7 @@
     <values>
       <value>0.75</value>
       <value hgrid="gx3v7">0.68</value>
+      <value hgrid ='tx0.25v1' app='s2s'>0.78</value>
     </values>
   </entry>
 
@@ -1488,6 +1812,7 @@
     <values>
       <value>0.45</value>
       <value hgrid="gx3v7">0.30</value>
+      <value hgrid ='tx0.25v1' app='s2s'>0.36</value>
     </values>
   </entry>
 
@@ -1514,6 +1839,7 @@
     <values>
       <value>0.73</value>
       <value hgrid="gx3v7">0.63</value>
+      <value hgrid ='tx0.25v1' app='s2s'>0.70</value>
     </values>
   </entry>
 
@@ -1567,6 +1893,7 @@
       <value hgrid="ar9v4"> -1.00 </value>
       <value cam4='.true.'>  1.50 </value>
       <value cam5='.true.'>  1.75 </value>
+      <value hgrid ='tx0.25v1' app='s2s'>1.50</value>
     </values>
   </entry>
 
@@ -1680,6 +2007,7 @@
       <value>cesm</value>
       <value hgrid="ar9v3"> hlid </value>
       <value hgrid="ar9v4"> hlid </value>
+      <value hgrid ='tx0.25v1' app='s2s'>hlid</value>
     </values>
   </entry>
 
@@ -1727,163 +2055,246 @@
   <!-- forcing_nml -->
   <!-- =========================== -->
 
-  <!-- <entry id="atmbndy"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     stability based boundary layer (default, constant) -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>default</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="atmbndy">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      stability based boundary layer (default, constant)
+    </desc>
+    <values>
+      <value>default</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="fyear_init"> -->
-  <!--   <type>integer</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     first year of atm forcing data -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>1900</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="fyear_init">
+    <type>integer</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      first year of forcing cycle
+    </desc>
+    <values>
+      <value>1900</value>
+      <value hgrid ='tx0.25v1' app='s2s'>1997</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="atm_data_format"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     atm input data format (bin, nc) -->
-  <!--   </desc> -->
-  <!--   <valid_values>bin,nc</valid_values> -->
-  <!--   <values> -->
-  <!--     <value>bin</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="ycycle">
+    <type>integer</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      number of year of forcing data cycle
+    </desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="ycycle"> -->
-  <!--   <type>integer</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     number of year of forcing data cycle -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>1</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="atm_data_type">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      atm forcing data type
+    </desc>
+    <valid_values>box2001,default,hycom,JRA55_gx1,JRA55_gx3,JRA55_tx1,LYq,monthly,ncar,oned</valid_values>
+    <values>
+      <value>default</value>
+      <value hgrid ='tx0.25v1' app='s2s'>ncar</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="atm_data_type"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     atm forcing data type (default, LYq, monthly, ncar, oned) -->
-  <!--   </desc> -->
-  <!--   <valid_values>default, LYq, monthly, ncar, oned</valid_values> -->
-  <!--   <values> -->
-  <!--     <value>default</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="atm_data_format">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      atm input data format
+    </desc>
+    <valid_values>bin,nc</valid_values>
+    <values>
+      <value>bin</value>
+      <value hgrid ='tx0.25v1' app='s2s'>nc</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="atm_data_dir"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     path to atmospheric forcing data directory -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>''</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="atm_data_dir">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      path to atmospheric forcing data directory
+    </desc>
+    <values>
+      <value>' '</value>
+      <value hgrid ='tx0.25v1' app='s2s'>./INPUT/gx3_forcing_fields.nc</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="calc_strair"> -->
-  <!--   <type>logical</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     calculate wind stress and speed from files -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>.true.</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="ocn_data_type">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      ocn forcing data type
+    </desc>
+    <valid_values>clim,default,hycom,ncar</valid_values>
+    <values>
+      <value>default</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="calc_tsfc"> -->
-  <!--   <type>logical</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     calculate surface temperature -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>.true.</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="ocn_data_format">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      ocean forcing data format
+    </desc>
+    <valid_values>bin,nc</valid_values>
+    <values>
+      <value>bin</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="precip_units"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     liquid precip data units (mks, mm_per_month, mm_per_sec) -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>mks</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="ocn_data_dir">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      path to ocean forcing data directory
+    </desc>
+    <values>
+      <value>unknown_ocn_data_dir</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="update_ocn_f"> -->
-  <!--   <type>logical</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     include frazil water/salt fluxes in ocean fluxes -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>.false.</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="bcg_data_type">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      bcg forcing data type
+    </desc>
+    <values>
+      <value>default</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="ustar_min"> -->
-  <!--   <type>real</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     minimum value of ocean friction velocity -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>0.005</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="bcg_data_dir">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      path to bgc forcing data directory
+    </desc>
+    <values>
+      <value>unknown_bgc_data_dir</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="oceanmixed_ice"> -->
-  <!--   <type>logical</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     active ocean mixed layer calculation -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>.false.</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="calc_strair">
+    <type>logical</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      calculate wind stress and speed from files
+    </desc>
+    <values>
+      <value>.true.</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="ocn_data_format"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     ocean forcing file format (bin, nc) -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>bin</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="calc_tsfc">
+    <type>logical</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      calculate surface temperature
+    </desc>
+    <values>
+      <value>.true.</value>
+    </values>
+  </entry>
+
+  <entry id="precip_units">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      liquid precipitation data units
+    </desc>
+    <valid_values>mks,mm_per_month,mm_per_sec</valid_values>
+    <values>
+      <value>mks</value>
+      <value hgrid ='tx0.25v1' app='s2s'>mm_per_month</value>
+    </values>
+  </entry>
+
+  <entry id="default_season">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      default forcing data, if data is not read in
+    </desc>
+    <valid_values>winter,summer</valid_values>
+    <values>
+      <value>winter</value>
+    </values>
+  </entry>
+
+  <entry id="update_ocn_f">
+    <type>logical</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      include frazil water/salt fluxes in ocean fluxes
+    </desc>
+    <values>
+      <value>.false.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.true.</value>
+    </values>
+  </entry>
+
+  <entry id="ustar_min">
+    <type>real</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      minimum value of ocean friction velocity
+    </desc>
+    <values>
+      <value>0.005</value>
+      <value hgrid ='tx0.25v1' app='s2s'>0.0005</value>
+    </values>
+  </entry>
+
+  <entry id="emissivity">
+    <type>real</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      emissivity of snow and ice
+    </desc>
+    <values>
+      <value>0.95</value>
+    </values>
+  </entry>
+
+  <entry id="oceanmixed_ice">
+    <type>logical</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      active ocean mixed layer calculation
+    </desc>
+    <values>
+      <value>.false.</value>
+    </values>
+  </entry>
 
   <!-- <entry id="sss_data_type"> -->
   <!--   <type>char</type> -->
@@ -1898,29 +2309,17 @@
   <!--   </values> -->
   <!-- </entry> -->
 
-  <!-- <entry id="ocn_data_dir"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     path to ocean forcing data directory -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>''</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
-
-  <!-- <entry id="oceanmixed_file"> -->
-  <!--   <type>char</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     data file containing ocean forcing data -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>unknown_oceanmixed_file</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="oceanmixed_file">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      data file containing ocean forcing data
+    </desc>
+    <values>
+      <value>unknown_oceanmixed_file</value>
+    </values>
+  </entry>
 
   <!-- <entry id="restore_sst"> -->
   <!--   <type>logical</type> -->
@@ -1934,29 +2333,41 @@
   <!--   </values> -->
   <!-- </entry> -->
 
-  <!-- <entry id="trestore"> -->
-  <!--   <type>integer</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     sst restoring timescale in days -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>90</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="trestore">
+    <type>integer</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      sst restoring timescale in days
+    </desc>
+    <values>
+      <value>90</value>
+    </values>
+  </entry>
 
-  <!-- <entry id="restore_ice"> -->
-  <!--   <type>logical</type> -->
-  <!--   <category>forcing</category> -->
-  <!--   <group>forcing_nml</group> -->
-  <!--   <desc> -->
-  <!--     restore ice state along lateral boundaries -->
-  <!--   </desc> -->
-  <!--   <values> -->
-  <!--     <value>.false.</value> -->
-  <!--   </values> -->
-  <!-- </entry> -->
+  <entry id="restore_ice">
+    <type>logical</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      restore ice state along lateral boundaries
+    </desc>
+    <values>
+      <value>.false.</value>
+    </values>
+  </entry>
+
+  <entry id="restore_ocn">
+    <type>logical</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      restore sst if true
+    </desc>
+    <values>
+      <value>.false.</value>
+    </values>
+  </entry>
 
   <entry id="formdrag">
     <type>logical</type>
@@ -1992,6 +2403,7 @@
     </desc>
     <values>
       <value>.true.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.false.</value>
     </values>
   </entry>
 
@@ -2018,6 +2430,70 @@
     </desc>
     <values>
       <value>.false.</value>
+    </values>
+  </entry>
+
+  <entry id="tfrz_option">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      form of ocean freezing temperature
+    </desc>
+    <valid_values>minus1p8,linear_salt,mushy</valid_values>
+    <values>
+      <value>mushy</value>
+      <value hgrid ='tx0.25v1' app='s2s'>linear_salt</value>
+    </values>
+  </entry>
+
+  <entry id="restart_coszen">
+    <type>logical</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      if true, read/write coszen
+    </desc>
+    <values>
+      <value>.false.</value>
+      <value hgrid ='tx0.25v1' app='s2s'>.true.</value>
+    </values>
+  </entry>
+
+  <entry id="wave_spec_type">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      type of wave spectrum forcing
+    </desc>
+    <valid_values>none,constant,profile,random</valid_values>
+    <values>
+      <value>none</value>
+    </values>
+  </entry>
+
+  <entry id="wave_spec_file">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      file name for wave spectrum
+    </desc>
+    <values>
+      <value>unknown_wave_spec_file</value>
+    </values>
+  </entry>
+
+  <entry id="nfreq">
+    <type>integer</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      number of wave frequencies
+    </desc>
+    <values>
+      <value>25</value>
     </values>
   </entry>
 
