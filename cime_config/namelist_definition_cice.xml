@@ -488,7 +488,7 @@
       <value hgrid="gx1v6">$DIN_LOC_ROOT/ocn/pop/gx1v6/grid/horiz_grid_20010402.ieeer8</value>
       <value hgrid="gx1v7">$DIN_LOC_ROOT/ocn/pop/gx1v7/grid/horiz_grid_20010402.ieeer8</value>
       <value hgrid="gx3v7">$DIN_LOC_ROOT/ocn/pop/gx3v7/grid/horiz_grid_20030806.ieeer8</value>
-      <value hgrid="tx0.66v1">$DIN_LOC_ROOT/ocn/mom/tx0.66v1/grid/horiz_grid_20180604.ieeer8</value>
+      <value hgrid="tx0.66v1">$DIN_LOC_ROOT/ocn/mom/tx0.66v1/grid/horiz_grid_20190315.ieeer8</value>
       <value hgrid="tx0.1v2">$DIN_LOC_ROOT/ocn/pop/tx0.1v2/grid/horiz_grid_200709.ieeer8</value>
       <value hgrid="tx0.1v3">$DIN_LOC_ROOT/ocn/pop/tx0.1v3/grid/horiz_grid_200709.ieeer8</value>
       <value hgrid="tx1v1">$DIN_LOC_ROOT/ocn/pop/tx1v1/grid/horiz_grid_20050510.ieeer8</value>
@@ -510,7 +510,7 @@
       <value>UNSET</value> 
       <value hgrid="gx1v6">$DIN_LOC_ROOT/ocn/pop/gx1v6/grid/topography_20090204.ieeei4</value>
       <value hgrid="gx1v7">$DIN_LOC_ROOT/ocn/pop/gx1v7/grid/topography_20161215.ieeei4</value>
-      <value hgrid="tx0.66v1">$DIN_LOC_ROOT/ocn/mom/tx0.66v1/grid/topography_20180604.ieeei4</value>
+      <value hgrid="tx0.66v1">$DIN_LOC_ROOT/ocn/mom/tx0.66v1/grid/topography_20190315.ieeei4</value>
       <value hgrid="gx3v7">$DIN_LOC_ROOT/ocn/pop/gx3v7/grid/topography_20100105.ieeei4</value>
       <value hgrid="tx0.1v2">$DIN_LOC_ROOT/ocn/pop/tx0.1v2/grid/topography_200709.ieeei4</value>
       <value hgrid="tx0.1v3">$DIN_LOC_ROOT/ocn/pop/tx0.1v3/grid/topography_20170718.ieeei4</value>
@@ -2459,6 +2459,19 @@
     </values>
   </entry>
 
+  <entry id="saltflux_option">
+    <type>char</type>
+    <category>forcing</category>
+    <group>forcing_nml</group>
+    <desc>
+      prognostic or 4 psu salinity
+    </desc>
+    <valid_values>4psu,prognostic</valid_values>
+    <values>
+      <value>4psu</value>
+    </values>
+  </entry>
+
   <entry id="restart_coszen">
     <type>logical</type>
     <category>forcing</category>
@@ -2815,33 +2828,27 @@
     </values>
   </entry>
 
-  <entry id="stream_meshfile">
+  <entry id="stream_meshfile" modify_via_xml="SSTICE_MESH_FILENAME">
     <type>char</type>
     <category>streams</category>
     <group>ice_prescribed_nml</group>
     <desc>stream mesh file</desc>
     <values>
-      <value>
-        ''
-      </value>
-      <value cice_mode="prescribed">
-	$DIN_LOC_ROOT/atm/cam/sst/sst_HadOIBl_bc_1x1_clim_c101029_ESMFmesh_120520.nc
-      </value>
-      <value cice_mode="prescribed" hgrid="T31">
-	$DIN_LOC_ROOT/share/meshes/T31_040122_ESMFmesh.nc
-      </value>
-      <value cice_mode="prescribed" hgrid="1.9x2.5">
-	$DIN_LOC_ROOT/share/meshes/fv1.9x2.5_141008_ESMFmesh.nc
-      </value>
-      <value cice_mode="prescribed" hgrid="0.9x1.25">
-	$DIN_LOC_ROOT/share/meshes/fv0.9x1.25_141008_polemod_ESMFmesh.nc
-      </value>
-      <value cice_mode="prescribed" hgrid="0.47x0.63">
-	$DIN_LOC_ROOT/share/meshes/fv0.47x0.63_141008_ESMFmesh.nc
-      </value>
-      <value cice_mode="prescribed" hrid="4x5">
-	$DIN_LOC_ROOT/share/meshes/fv4x5_050615_polemod_ESMFmesh.nc
-      </value>
+      <value>''</value>
+      <value cice_mode="prescribed">$SSTICE_MESH_FILENAME</value>
+    </values>
+  </entry>
+
+  <entry id="stream_datafiles" modify_via_xml="SSTICE_DATA_FILENAME">
+    <type>char</type>
+    <category>icepresc</category>
+    <group>ice_prescribed_nml</group>
+    <desc>
+      file name(s) containing sst/ifrac data
+    </desc>
+    <values>
+      <value>''</value>
+      <value cice_mode="prescribed">$SSTICE_DATA_FILENAME</value>
     </values>
   </entry>
 
@@ -2868,19 +2875,6 @@
     </desc>
     <values>
       <value>ice_cov</value>
-    </values>
-  </entry>
-
-  <entry id="stream_datafiles" modify_via_xml="SSTICE_DATA_FILENAME">
-    <type>char</type>
-    <category>icepresc</category>
-    <group>ice_prescribed_nml</group>
-    <desc>
-      file name(s) containing sst/ifrac data
-    </desc>
-    <values>
-      <value>''</value>
-      <value cice_mode="prescribed">$SSTICE_DATA_FILENAME</value>
     </values>
   </entry>
 
@@ -5360,6 +5354,82 @@
     <type>char</type>
     <category>history</category>
     <group>icefields_bgc_nml</group>
+    <desc>
+    </desc>
+    <values>
+      <value>xxxxx</value>
+      <value cice_mode='prescribed'>xxxxx</value>
+    </values>
+  </entry>
+
+  <!-- =========================== -->
+  <!-- icefields_fsd_nml -->
+  <!-- =========================== -->
+
+  <entry id="f_afsd">
+    <type>char</type>
+    <category>history</category>
+    <group>icefields_fsd_nml</group>
+    <desc>
+    </desc>
+    <values>
+      <value>xxxxx</value>
+      <value cice_mode='prescribed'>xxxxx</value>
+    </values>
+  </entry>
+
+  <entry id="f_dafsd_newi">
+    <type>char</type>
+    <category>history</category>
+    <group>icefields_fsd_nml</group>
+    <desc>
+    </desc>
+    <values>
+      <value>xxxxx</value>
+      <value cice_mode='prescribed'>xxxxx</value>
+    </values>
+  </entry>
+
+  <entry id="f_dafsd_latg">
+    <type>char</type>
+    <category>history</category>
+    <group>icefields_fsd_nml</group>
+    <desc>
+    </desc>
+    <values>
+      <value>xxxxx</value>
+      <value cice_mode='prescribed'>xxxxx</value>
+    </values>
+  </entry>
+
+  <entry id="f_dafsd_latm">
+    <type>char</type>
+    <category>history</category>
+    <group>icefields_fsd_nml</group>
+    <desc>
+    </desc>
+    <values>
+      <value>xxxxx</value>
+      <value cice_mode='prescribed'>xxxxx</value>
+    </values>
+  </entry>
+
+  <entry id="f_dafsd_wave">
+    <type>char</type>
+    <category>history</category>
+    <group>icefields_fsd_nml</group>
+    <desc>
+    </desc>
+    <values>
+      <value>xxxxx</value>
+      <value cice_mode='prescribed'>xxxxx</value>
+    </values>
+  </entry>
+
+  <entry id="f_dafsd_weld">
+    <type>char</type>
+    <category>history</category>
+    <group>icefields_fsd_nml</group>
     <desc>
     </desc>
     <values>
