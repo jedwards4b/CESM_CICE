@@ -1,0 +1,8 @@
+#!/glade/u/home/jedwards/.cache/pypoetry/virtualenvs/git-fleximod-WLEKYX3a-py3.10/bin/python
+import sys
+import os
+sys.path.insert(0,os.path.abspath(os.path.join(os.path.dirname(__file__),"..","lib")))
+from git_fleximod.git_fleximod import main
+
+if __name__ == '__main__':
+    sys.exit(main())
